@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTS Tools Models</title>
+    <title>TTS Tools Video Models</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
 </head>
 <body>
     <div class="background">
@@ -78,7 +80,9 @@
                     </form>
                 </div>
             </div>
-    
+            <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+                <img src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif" alt="processing..." />
+            </div>
             <!-- Modal for displaying selected choices -->
             <div id="myModal" class="modal" style="display: none;">
                 <div class="modal-content">
@@ -86,9 +90,7 @@
                     <div class="player">
                         <video id="videoPlayer" controls style="display: none;"></video>
                     </div>
-                    <div id="loadingIndicator" class="loading-indicator" style="display: none;">
-                        <img src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif" alt="processing..." />
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -158,9 +160,19 @@
                 genderRadios.forEach(radio => {
                     radio.addEventListener('change', generateRadioButtons);
                 });
+
+                closeModal.addEventListener('click', () => {
+                    // Close the modal
+                    modal.style.display = 'none';
+                    // Reset the Form
+                    customForm.reset();
+                    // Refresh and reload the page
+                    window.location.reload();
+                });          
     
                 // Function to generate video with audio
                 async function generateVideoWithAudio() {
+                    
                     try {
                         // Display the loading indicator
                         $("#loadingIndicator").show();
@@ -186,11 +198,9 @@
     
                         const audioData = await audioResponse.json();
                         const audioUrl = audioData.audioUrl;
-                        console.log(audioUrl);
 
                         // Split the audioUrl at the `.com` domain
                         const splitAudioUrl = audioUrl.split('.com/');
-                        console.log('denbig',splitAudioUrl[1]);
                             
                         // Call the Video API to get VideoURL using AudioURL and text
                         const videoApiUrl = `https://xckszodvuk.execute-api.ap-south-1.amazonaws.com/api/${selectedCheckbox}-video`;
@@ -202,18 +212,10 @@
                             },
                             body: JSON.stringify({ audio_path: splitAudioUrl[1], text: text })
                         });
-                        console.log(text);
-                        
-                        console.log('denbig',splitAudioUrl[1]);
     
                         const videoData = await videoResponse.json(); 
-                       // console.log(videoData); //.json();
                         const videoUrl = videoData.videoUrl;
-                        console.log(videoUrl, splitAudioUrl[1]);
                         
-                        // Hide the loading indicator
-                        $("#loadingIndicator").hide();
-    
                         // Display the video in the modal
                         const video = document.querySelector('#videoPlayer');
                         video.src = videoUrl;
@@ -223,6 +225,8 @@
                         modal.style.display = 'block';
                     } catch (error) {
                         console.error('Error generating video:', error);
+                    }finally {
+                        $("#loadingIndicator").hide(); // Hide loading indicator on success or error
                     }
                 }
     
