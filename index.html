@@ -203,18 +203,20 @@
                         const splitAudioUrl = audioUrl.split('.com/');
                             
                         // Call the Video API to get VideoURL using AudioURL and text
-                        const videoApiUrl = `https://xckszodvuk.execute-api.ap-south-1.amazonaws.com/api/${selectedCheckbox}-video`;
-    
+                        //const videoApiUrl = `https://xckszodvuk.execute-api.ap-south-1.amazonaws.com/api/${selectedCheckbox}-video-new`;
+                        const videoApiUrl = 'https://blhzbpoisl.execute-api.ap-south-1.amazonaws.com/Test_stage';
+                        console.log('audioUrl',audioUrl);
                         const videoResponse = await fetch(videoApiUrl, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({ audio_path: splitAudioUrl[1], text: text })
+                            //body: JSON.stringify({ audio_path: splitAudioUrl[1], text: text })
+                            body: JSON.stringify({ audio_path: audioUrl, outfilename: 'test_sumit_webpage_now.mp4' })
                         });
     
                         const videoData = await videoResponse.json(); 
-                        const videoUrl = videoData.videoUrl;
+                        const videoUrl = "https://audiosyspin.s3.ap-south-1.amazonaws.com/test_sumit_webpage.mp4" ;  //videoData.videoUrl;
                         
                         // Display the video in the modal
                         const video = document.querySelector('#videoPlayer');
@@ -225,6 +227,7 @@
                         modal.style.display = 'block';
                     } catch (error) {
                         console.error('Error generating video:', error);
+                        console.log(videoData);
                     }finally {
                         $("#loadingIndicator").hide(); // Hide loading indicator on success or error
                     }
