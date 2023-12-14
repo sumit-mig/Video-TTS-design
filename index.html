@@ -226,11 +226,13 @@
                         });
     
                         const videoData = await videoResponse.json();
-                        const videoUrl = "https://audiosyspin.s3.ap-south-1.amazonaws.com/test_sumit_webpage_now.mp4" ;  //videoData.videoUrl;
+                        console.log('video API response',videoData);
+                        const videoUrl = "https://audiosyspin.s3.ap-south-1.amazonaws.com/" //video_name ;  //videoData.videoUrl;
+                        const fullVideoUrl = videoUrl + video_name;
                         
                         // Display the video in the modal
                         const video = document.querySelector('#videoPlayer');
-                        video.src = videoUrl;
+                        video.src = fullVideoUrl;
                         video.style.display = "block";
     
                         // Open the modal
