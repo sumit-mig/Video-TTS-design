@@ -181,7 +181,8 @@
                         const selectedTab = wordBoxSelect.value;
                         const selectedCheckbox = Array.from(genderRadios).find(radio => radio.checked).value;
                         const selectedRadio = Array.from(document.querySelectorAll('input[name="radioOption"]')).find(option => option.checked).value;
-    
+
+                        console.log('gender',selectedCheckbox)
                         // Assuming 'text' is the variable containing your text data
                         const text = document.getElementById('text').value;
     
@@ -195,6 +196,7 @@
                             },
                             body: JSON.stringify({ text: text })
                         });
+
     
                         const audioData = await audioResponse.json();
                         const audioUrl = audioData.audioUrl;
@@ -213,7 +215,7 @@
                                 'Content-Type': 'application/json'
                             },
                             //body: JSON.stringify({ audio_path: splitAudioUrl[1], text: text })
-                            body: JSON.stringify({ audio_path: audioUrl, outfilename: video_name })
+                            body: JSON.stringify({ audio_path: audioUrl, gender:"Female", outfilename: video_name })
                         });
     
                         const videoData = await videoResponse.json();
