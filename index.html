@@ -182,7 +182,10 @@
                         const selectedCheckbox = Array.from(genderRadios).find(radio => radio.checked).value;
                         const selectedRadio = Array.from(document.querySelectorAll('input[name="radioOption"]')).find(option => option.checked).value;
 
-                        console.log('gender',selectedCheckbox)
+                        //console.log('gender',selectedCheckbox)
+                        // if selectedCheckbox value is mal give male else female
+                        const genderResult = selectedCheckbox === 'mal' ? 'Male' : 'Female';
+
                         // Assuming 'text' is the variable containing your text data
                         const text = document.getElementById('text').value;
     
@@ -209,13 +212,14 @@
                         //const videoApiUrl = `https://xckszodvuk.execute-api.ap-south-1.amazonaws.com/api/${selectedCheckbox}-video-new`;
                         const videoApiUrl = 'https://blhzbpoisl.execute-api.ap-south-1.amazonaws.com/Test_stage';
                         console.log('audioUrl',audioUrl);
+
                         const videoResponse = await fetch(videoApiUrl, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
                             },
                             //body: JSON.stringify({ audio_path: splitAudioUrl[1], text: text })
-                            body: JSON.stringify({ audio_path: audioUrl, gender:"Female", outfilename: video_name })
+                            body: JSON.stringify({ audio_path: audioUrl, gender: genderResult, outfilename: video_name })
                         });
     
                         const videoData = await videoResponse.json();
