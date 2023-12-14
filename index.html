@@ -203,10 +203,13 @@
     
                         const audioData = await audioResponse.json();
                         const audioUrl = audioData.audioUrl;
-                        const video_name = 'test_sumit_webpage_now.mp4'
+                        
 
                         // Split the audioUrl at the `.com` domain
                         const splitAudioUrl = audioUrl.split('.com/');
+                        // replace .wav by .mp4
+                        const video_name  = splitAudioUrl.replace('.wav','.mp4');
+                        // const video_name  == splitAudioUrl // 'test_sumit_webpage_now.mp4'
                             
                         // Call the Video API to get VideoURL using AudioURL and text
                         //const videoApiUrl = `https://xckszodvuk.execute-api.ap-south-1.amazonaws.com/api/${selectedCheckbox}-video-new`;
